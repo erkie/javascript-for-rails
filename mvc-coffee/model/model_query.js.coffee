@@ -12,6 +12,15 @@ class @ModelQuery extends Mixin
     return @
 
   @find: (id, callback) ->
+    url = @replaceURLParameters(@resource().show, id: id)
+
+    $.getJSON url, (data) =>
+      if data = data[@namespace()]
+        callback new @(data)
+      else
+        callback(false)
+
+    return @
 
   @resource: =>
     # index: "",

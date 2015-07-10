@@ -1,4 +1,8 @@
 class @ModelPersistence extends Mixin
+  @replaceURLParameters: (url, data = {}) =>
+    url.replace /:([A-Za-z0-9_]+)/g, (_, match) =>
+      data[match]
+
   save: (callback = ->) =>
     if @isPersisted()
       @update(callback)
@@ -72,5 +76,4 @@ class @ModelPersistence extends Mixin
     result
 
   replaceURLParameters: (url) =>
-    url.replace /:([A-Za-z0-9_]+)/g, (_, match) =>
-      @[match]
+    @.constructor.replaceURLParameters url, @
