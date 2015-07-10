@@ -22,6 +22,14 @@ class Attribute.Integer extends Attribute
     else
       value
 
+class Attribute.Float extends Attribute
+  transform: (value) =>
+    value = parseFloat(value)
+    if isNaN(value)
+      0
+    else
+      value
+
 class Attribute.Array extends Attribute
   constructor: ({@model}) ->
     super
