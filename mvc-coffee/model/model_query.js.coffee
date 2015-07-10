@@ -1,25 +1,28 @@
 class @ModelQuery extends Mixin
+  @buildFromResponse: (data, callback) ->
+    data = data[@namespace()] || data[pluralize(@namespace())]
+
+    if data.constructor == Array
+      models = (new @(datum) for datum in data)
+      callback models
+    else if typeof data == "object"
+      callback new @(data)
+    else
+      callback false
+
   @all: (callback = ->) ->
     $.getJSON @resource().index, (data) =>
-      data = data[@namespace()]
-
-      if data.constructor == Array
-        models = (new @(datum) for datum in data)
-        callback models
-      else
-        callback(false)
-
+      @buildFromResponse data, callback
     return @
 
   @find: (id, callback) ->
-    url = @replaceURLParameters(@resource().show, id: id)
+    $.getJSON @replaceURLParameters(@resource().show, id: id), (data) =>
+      @buildFromResponse data, callback
+    return @
 
-    $.getJSON url, (data) =>
-      if data = data[@namespace()]
-        callback new @(data)
-      else
-        callback(false)
-
+  @where: (parameters, callback) ->
+    $.getJSON @replaceURLParameters(@resource().index, parameters), (data) =>
+      @buildFromResponse data, callback
     return @
 
   @resource: =>

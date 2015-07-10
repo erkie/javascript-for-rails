@@ -1,3 +1,4 @@
+//= require_tree ./vendor
 //= require ./mixins
 //= require ./event-listener
 //= require ./page
