@@ -22,6 +22,7 @@ class @ModelPersistence extends Mixin
       dataType: "json"
     .done (response) =>
       @setAttributes response[namespace] if response[namespace]
+      @trigger "create"
       callback(true)
     .fail =>
       callback(false)
@@ -41,6 +42,7 @@ class @ModelPersistence extends Mixin
       dataType: "json"
     .done (response) =>
       @setAttributes response[namespace] if response[namespace]
+      @trigger "update"
       callback(true)
     .fail =>
       callback(false)
@@ -60,6 +62,7 @@ class @ModelPersistence extends Mixin
       dataType: "json"
     .done (response) =>
       @setAttributes response[namespace] if response[namespace]
+      @trigger "destroy"
       callback(true)
     .fail =>
       callback(false)
