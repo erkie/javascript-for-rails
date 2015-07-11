@@ -4,7 +4,10 @@ class @Attribute
 
 class Attribute.String extends Attribute
   transform: (value) =>
-    value.toString()
+    if value == null
+      ""
+    else
+      value.toString()
 
 class Attribute.Boolean extends Attribute
   transform: (value) =>
